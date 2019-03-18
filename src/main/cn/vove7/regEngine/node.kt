@@ -32,7 +32,7 @@ abstract class RegNode {
 //            }
             else -> return index // 匹配一次
         }
-        return index
+        return index + 1
     }
 
 
@@ -146,8 +146,11 @@ class OrNode : RegNode() {
 
     override fun match(s: String, startIndex: Int, nextNode: RegNode?): Int? {
         orList.withIndex().forEach {
-            val begin = it.value.match(s, startIndex, null)
-            if (begin != null) return begin
+            val endIndex = it.value.match(s, startIndex, null)
+            if (endIndex != null) {
+                matchValue = s.substring(startIndex, endIndex)
+                return endIndex
+            }
         }
         return null
     }
@@ -172,9 +175,7 @@ class CharsNode : RegNode() {
                     }
                 }
                 ']' -> {
-                    i++
-                    buildMatchCount(i, regex)
-                    return i
+                    return buildMatchCount(++i, regex)
                 }
                 else -> {
                     rangeList.add(CharRange(regex[i], regex[i]))
@@ -203,7 +204,7 @@ class CharsNode : RegNode() {
                 }
             }
             if (contain)
-                endIndex = i
+                endIndex = i+1
             else break //匹配结束
         }
         if (minMatchCount == 0 && startIndex == endIndex) {
@@ -212,8 +213,8 @@ class CharsNode : RegNode() {
         if (endIndex - startIndex < minMatchCount) {
             return null//匹配失败
         }
-        matchValue = s.substring(startIndex, endIndex + 1)
-        return endIndex + 1
+        matchValue = s.substring(startIndex, endIndex)
+        return endIndex
     }
 }
 
@@ -223,7 +224,10 @@ class TextNode(val text: String) : RegNode() {
     }
 
     override fun match(s: String, startIndex: Int, nextNode: RegNode?): Int? {
-        if (startIndex >= s.length) return null
+        if (startIndex >= s.length){
+            return if(minMatchCount==0) startIndex
+            else null
+        }
 
         val b = s.substring(startIndex).startsWith(text)
         return when {
@@ -232,6 +236,7 @@ class TextNode(val text: String) : RegNode() {
                 startIndex + text.length
             }
             minMatchCount == 0 -> {
+                matchValue = ""
                 Vog.d(" 忽略 --> $regText")
                 startIndex
             }
@@ -249,7 +254,7 @@ class GroupNode : RegNode() {
     lateinit var subNodeList: List<RegNode>
 
     override fun match(s: String, startIndex: Int, nextNode: RegNode?): Int? {
-        if (startIndex >= s.length) return null
+        if (startIndex >= s.length && minMatchCount != 0) return null
         var endIndex = startIndex
         var matchCount = 0//匹配次数
         while (endIndex < s.length && matchCount++ < maxMatchCount) {

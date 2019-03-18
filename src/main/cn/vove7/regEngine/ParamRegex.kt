@@ -39,25 +39,23 @@ class ParamRegex(
                     regIndex++
                     val b = regIndex
                     val group = GroupNode()
-                    groupStack.push(group)
+                    groupStack.push(group)//进栈
                     group.subNodeList = buildRegNodeList()
-                    group.regText = regex.substring(b, regIndex)
+                    group.regText = regex.substring(b - 1, regIndex)
 
                     list.add(group)
                 }
                 ')' -> {//结束
                     val group = groupStack.pop() ?: throw Exception("括号不匹配")
-                    regIndex++
-                    group.buildMatchCount(regIndex, regex)
+                    regIndex = group.buildMatchCount(++regIndex, regex)
                     sb.buildNode(list)
 
                     return list
                 }
                 '[' -> {
                     sb.buildNode(list)//检查前面
-                    regIndex++
                     val orNode = CharsNode()
-                    regIndex = orNode.buildOneCharNodes(regex, regIndex)
+                    regIndex = orNode.buildOneCharNodes(regex, ++regIndex)
                     list.add(orNode)
                 }
                 '|' -> {//或
@@ -82,15 +80,14 @@ class ParamRegex(
                         val index = regex.indexOf('}', regIndex + 1)
                         if (index > 0) {
                             paramNode.name = regex.substring(regIndex + 1, index).let {
-                                paramNode.regText = "@${it}"
+                                paramNode.regText = "@{$it}"
                                 if (it[0] == '#') {
                                     paramNode.onlyNumber = true
                                     it.substring(1)
                                 } else it
                             }
-                            regIndex = index
                             paramNode.minMatchCount = 0
-                            paramNode.buildMatchCount(index, regex)
+                            regIndex = paramNode.buildMatchCount(index + 1, regex)
                             list.add(paramNode)
                         } else {
                             throw Exception("@后'}'不匹配 at $regIndex")
@@ -106,34 +103,35 @@ class ParamRegex(
                         it.regText = "#"
                         it.onlyNumber = true
                     })
+                    regIndex++
                 }
                 '%' -> {
                     sb.buildNode(list)//检查前面
                     list.add(ParamNode().also {
                         it.regText = "%"
+                        regIndex = it.buildMatchCount(++regIndex, regex)
                     })
+                    regIndex++
                 }
                 else -> {//其他字符
                     if (regIndex + 1 < l) {//未超出
                         if (regex[regIndex + 1] in arrayOf('*', '+', '?')) {
                             val singleCharNode = TextNode(regex[regIndex].toString()).apply {
-                                regIndex++
-                                regIndex = buildMatchCount(regIndex, regex)
+                                regIndex = buildMatchCount(++regIndex, regex)
                             }
-                            val preNode = TextNode(sb.toString())
-                            list.add(preNode)
+                            sb.buildNode(list)
                             list.add(singleCharNode)
-                            sb.clear()
                         } else {
                             sb.append(regex[regIndex])
+                            regIndex++
                         }
                     } else {//结尾
                         sb.append(regex[regIndex])
                         sb.buildNode(list)
+                        regIndex++
                     }
                 }
             }
-            regIndex++
         }
 
         sb.buildNode(list)
