@@ -1,4 +1,4 @@
-package main.cn.vove7.regEngine
+package cn.vove7.regEngine
 
 import org.junit.Test
 import kotlin.test.assertEquals
