@@ -1,5 +1,6 @@
 package cn.vove7.regEngine
 
+import cn.vove7.regEngine.u.Vog
 import java.util.*
 
 
@@ -41,12 +42,13 @@ class ParamRegex(
                     val group = GroupNode()
                     groupStack.push(group)//进栈
                     group.subNodeList = buildRegNodeList()
+                    groupStack.pop()
                     group.regText = regex.substring(b - 1, regIndex)
 
-                    list.add(group)
+                    list.linkBack(group)
                 }
                 ')' -> {//结束
-                    val group = groupStack.pop() ?: throw Exception("括号不匹配")
+                    val group = groupStack.peek() ?: throw Exception("括号不匹配")
                     regIndex = group.buildMatchCount(++regIndex, regex)
                     sb.buildNode(list)
 
@@ -56,20 +58,29 @@ class ParamRegex(
                     sb.buildNode(list)//检查前面
                     val orNode = CharsNode()
                     regIndex = orNode.buildOneCharNodes(regex, ++regIndex)
-                    list.add(orNode)
+                    list.linkBack(orNode)
                 }
                 '|' -> {//或
                     sb.buildNode(list)//检查前面
                     regIndex++
                     //向后匹配
-                    val n = buildRegNodeList()
+                    val backList = buildRegNodeList()
                     val orNode = OrNode()
                     //连接
-                    orNode.orList.add(list.popBack())
-                    orNode.orList.add((n as MutableList<RegNode>).popFront())
+                    val preGroup = GroupNode().also {
+                        val li = arrayListOf<RegNode>()
+                        li.addAll(list)
+                        it.subNodeList = li
+                    }
+                    val backGroup = GroupNode().also {
+                        it.subNodeList = backList
+                    }
+                    orNode.orList.linkBack(preGroup)
+                    orNode.orList.linkBack(backGroup)
                     //拼接
-                    list.add(orNode)
-                    list.addAll(n)
+                    list.clear()
+                    list.linkBack(orNode)
+                    if (groupStack.isNotEmpty()) return list
                 }
                 '@' -> {//参数
                     sb.buildNode(list)//检查前面
@@ -88,7 +99,7 @@ class ParamRegex(
                             }
                             paramNode.minMatchCount = 0
                             regIndex = paramNode.buildMatchCount(index + 1, regex)
-                            list.add(paramNode)
+                            list.linkBack(paramNode)
                         } else {
                             throw Exception("@后'}'不匹配 at $regIndex")
                         }
@@ -99,19 +110,18 @@ class ParamRegex(
                 '#' -> {//数字
                     //无参数 任意匹配
                     sb.buildNode(list)//检查前面
-                    list.add(ParamNode().also {
+                    list.linkBack(ParamNode().also {
                         it.regText = "#"
                         it.onlyNumber = true
+                        regIndex = it.buildMatchCount(++regIndex, regex)
                     })
-                    regIndex++
                 }
                 '%' -> {
                     sb.buildNode(list)//检查前面
-                    list.add(ParamNode().also {
+                    list.linkBack(ParamNode().also {
                         it.regText = "%"
                         regIndex = it.buildMatchCount(++regIndex, regex)
                     })
-                    regIndex++
                 }
                 else -> {//其他字符
                     if (regIndex + 1 < l) {//未超出
@@ -120,7 +130,7 @@ class ParamRegex(
                                 regIndex = buildMatchCount(++regIndex, regex)
                             }
                             sb.buildNode(list)
-                            list.add(singleCharNode)
+                            list.linkBack(singleCharNode)
                         } else {
                             sb.append(regex[regIndex])
                             regIndex++
@@ -183,7 +193,7 @@ class ParamRegex(
 fun StringBuilder.buildNode(list: MutableList<RegNode>) {
     if (isNotEmpty()) {
         val preNode = TextNode(toString())
-        list.add(preNode)
+        list.linkBack(preNode)
     }
     clear()
 }
@@ -212,6 +222,13 @@ inline fun <reified T> MutableList<T>.popFront(): T {
     val i = get(0)
     removeAt(0)
     return i
+}
+
+fun MutableList<RegNode>.linkBack(node: RegNode) {
+    val pre = getOrNull(size - 1)
+    node.preNode = pre
+    pre?.nextNode = node
+    add(node)
 }
 
 /**

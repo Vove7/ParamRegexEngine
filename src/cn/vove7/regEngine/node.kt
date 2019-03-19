@@ -1,5 +1,7 @@
 package cn.vove7.regEngine
 
+import cn.vove7.regEngine.u.ParamRegexParseException
+import cn.vove7.regEngine.u.Vog
 import java.util.*
 
 
@@ -11,6 +13,15 @@ abstract class RegNode {
     var minMatchCount = 1
     var maxMatchCount = 1
 
+    var preNode: RegNode? = null
+    var nextNode: RegNode? = null
+
+    /**
+     * 返回下一个待匹配
+     * @param index Int
+     * @param s String
+     * @return Int
+     */
     fun buildMatchCount(index: Int, s: String): Int {
         if (index >= s.length) return index
         when (s[index]) {
@@ -27,10 +38,36 @@ abstract class RegNode {
                 maxMatchCount = 1
             }
             //下面可以适配 {1,4} 匹配数量
-//            '{' -> {
-//
-//            }
-            else -> return index // 匹配一次
+            '{' -> {
+                val endIndex = s.indexOf('}', index + 1)
+                if (endIndex < index) throw ParamRegexParseException("缺少} at $index")
+                val text = s.substring(index + 1, endIndex)
+                if (text.contains(',')) {//{1,2} / {1,}
+                    val ss = text.split(',')
+                    minMatchCount = ss[0].trim().toInt()
+                    maxMatchCount = ss[1].trim().let {
+                        if (it.isEmpty()) Int.MAX_VALUE
+                        else it.toInt()
+                    }
+                } else {//{2}
+                    minMatchCount = text.trim().toInt()
+                    maxMatchCount = minMatchCount
+                }
+                return endIndex + 1
+            }
+            else -> {
+                when (this::class.java.simpleName) {
+                    ParamNode::class.java.simpleName -> {
+                        minMatchCount = 0
+                        maxMatchCount = Int.MAX_VALUE
+                    }
+                    else -> {
+                        minMatchCount = 1
+                        maxMatchCount = 1
+                    }
+                }
+                return index
+            } // 匹配一次
         }
         return index + 1
     }
@@ -89,16 +126,34 @@ class ParamNode : RegNode() {
         }
         //
         for (i in startIndex + 1 until s.length) {
-            val nextIndex = nextNode.match(s, i, null)
+            //防止nextNode minMatchCount = 0
+            var node = nextNode
+            var nextIndex: Int? = i
+            while (node != null) {
+                if (node.minMatchCount == 0) {//检查未匹配
+                    nextIndex = node.match(s, i, nextNode.nextNode)
+                    if (nextIndex == i) //未匹配到
+                        node = node.nextNode
+                    else break//匹配到
+                } else {
+                    nextIndex = node.match(s, i, node.nextNode)
+                    break
+                }
+            }
 
             if (nextIndex != null) {
+                val matchCount = i - startIndex
+                if (matchCount !in minMatchCount..maxMatchCount) {
+                    matchValue = ""
+                    Vog.d(" 范围匹配失败 --> $matchCount not in ($minMatchCount, $maxMatchCount)")
+                    return null
+                }
                 matchValue = s.substring(startIndex, i)
                 return i
             }
 
         }
         return null
-
     }
 
     /**
@@ -194,7 +249,7 @@ class CharsNode : RegNode() {
 
         var endIndex = startIndex
         for (i in startIndex until s.length) {
-            if (i - startIndex > maxMatchCount) break//限制次数
+            if (i - startIndex >= maxMatchCount) break//限制次数
             val c = s[i]
             var contain = false
             rangeList.forEach forRange@{
@@ -204,13 +259,15 @@ class CharsNode : RegNode() {
                 }
             }
             if (contain)
-                endIndex = i+1
+                endIndex = i + 1
             else break //匹配结束
         }
         if (minMatchCount == 0 && startIndex == endIndex) {
             return startIndex
         }
-        if (endIndex - startIndex < minMatchCount) {
+        val matchCount = endIndex - startIndex
+        if (matchCount < minMatchCount) {
+            Vog.d(" 匹配次数 --> $matchCount < $minMatchCount")
             return null//匹配失败
         }
         matchValue = s.substring(startIndex, endIndex)
@@ -224,8 +281,8 @@ class TextNode(val text: String) : RegNode() {
     }
 
     override fun match(s: String, startIndex: Int, nextNode: RegNode?): Int? {
-        if (startIndex >= s.length){
-            return if(minMatchCount==0) startIndex
+        if (startIndex >= s.length) {
+            return if (minMatchCount == 0) startIndex
             else null
         }
 
@@ -257,28 +314,36 @@ class GroupNode : RegNode() {
         if (startIndex >= s.length && minMatchCount != 0) return null
         var endIndex = startIndex
         var matchCount = 0//匹配次数
-        while (endIndex < s.length && matchCount++ < maxMatchCount) {
+        while (endIndex < s.length && matchCount < maxMatchCount) {
             var i = 0
             var result = true
             subNodeList.forEach {
+                //并列关系
                 val partEndIndex = it.match(s, endIndex, subNodeList.getOrNull(i++))
-
-                if (partEndIndex != null) endIndex = partEndIndex
-                else {//subList 匹配失败
+                if (partEndIndex == null) {
                     result = false
+                    return@forEach //匹配成功 下次匹配
+                } else {//subList 匹配失败
+                    //nextNode
+                    endIndex = partEndIndex
                 }
             }
-            //一轮结束
-            if (!result && matchCount == 1 && minMatchCount == 0) {
+            //一轮结束失败 && minMatchCount == 0
+            if (!result && minMatchCount == 0) {
                 Vog.d("group未匹配到")
                 return startIndex //group未匹配到
             }
-
-            if (!result && matchCount >= minMatchCount) {//后面匹配失败
-                matchValue = s.substring(startIndex, endIndex)
-                return endIndex//返回最后匹配位置
+            if (result) {//匹配成功，继续向后匹配
+                matchCount++
+                continue
+            } else {//第2+轮 失败
+                return if (matchCount >= minMatchCount) {
+                    matchValue = s.substring(startIndex, endIndex)
+                    endIndex
+                } else {
+                    null
+                }
             }
-            //匹配成功，继续向后匹配
         }
         matchValue = s.substring(startIndex, endIndex)
 //        Vog.d(" 匹配次数 --> $matchCount")
