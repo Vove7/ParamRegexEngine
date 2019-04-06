@@ -125,7 +125,7 @@ class ParamNode : RegNode() {
             return s.length
         }
         //
-        for (i in startIndex + 1 until s.length) {
+        for (i in startIndex + minMatchCount until s.length) {
             //防止nextNode minMatchCount = 0
             var node = nextNode
             var nextIndex: Int? = i

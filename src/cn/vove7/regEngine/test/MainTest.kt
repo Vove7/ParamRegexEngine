@@ -89,6 +89,12 @@ class MainTest {
     @Test
     fun singleTest() {
 
+        println("%123%".toParamRegex().match("123"))// true
+
+        println("@{date}(叫|提醒)我@{message}".toParamRegex().match("明天八点叫我起床"))// false
+
+        if(true) return
+
         println("导航到?|带我去".toRegex().matches("导航带我去"))// false
 
         assertEquals("(导航到?|带我去)(附近的)?@{place}".toParamRegex().match("去玩") == null, true)

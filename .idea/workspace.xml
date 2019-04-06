@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="94b4cb9d-994b-4fbe-a33a-9d6ffb08ee26" name="Default Changelist" comment="完善限制符&#10;完善逻辑&#10;加入命令正则测试&#10;update ReadMe">
-      <change afterPath="$PROJECT_DIR$/src/cn/vove7/regEngine/u/ParamRegexParseException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+    <list default="true" id="94b4cb9d-994b-4fbe-a33a-9d6ffb08ee26" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/vove7/regEngine/MainTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/vove7/regEngine/test/MainTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/vove7/regEngine/ParamRegex.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/vove7/regEngine/ParamRegex.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/vove7/regEngine/Vog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/vove7/regEngine/u/Vog.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/vove7/regEngine/node.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/vove7/regEngine/node.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/vove7/regEngine/test/MainTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/vove7/regEngine/test/MainTest.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -36,12 +31,14 @@
     <session id="-116385009">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -65,7 +62,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gradle" value="57" />
-          <entry key="kt" value="2296" />
+          <entry key="kt" value="2366" />
           <entry key="md" value="150" />
           <entry key="txt" value="44" />
         </counts>
@@ -73,7 +70,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="57" />
-          <entry key="Kotlin" value="2296" />
+          <entry key="Kotlin" value="2366" />
           <entry key="Markdown" value="150" />
           <entry key="PLAIN_TEXT" value="44" />
         </counts>
@@ -85,17 +82,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cn/vove7/regEngine/ParamRegex.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-140">
-              <caret line="164" selection-start-line="164" selection-end-line="164" />
+            <state relative-caret-position="300">
+              <caret line="121" column="24" selection-start-line="121" selection-start-column="24" selection-end-line="121" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cn/vove7/regEngine/node.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="334" column="13" lean-forward="true" selection-start-line="334" selection-start-column="13" selection-end-line="334" selection-end-column="13" />
+            <state relative-caret-position="28">
+              <caret line="127" column="44" selection-start-line="127" selection-start-column="44" selection-end-line="127" selection-end-column="44" />
               <folding>
                 <element signature="e#28#131#0" expanded="true" />
               </folding>
@@ -103,11 +100,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cn/vove7/regEngine/test/MainTest.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="91" column="57" lean-forward="true" selection-start-line="91" selection-start-column="57" selection-end-line="91" selection-end-column="57" />
+            <state relative-caret-position="167">
+              <caret line="91" column="32" lean-forward="true" selection-start-line="91" selection-start-column="32" selection-end-line="91" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -565,9 +562,9 @@
         <option value="$PROJECT_DIR$/src/cn/vove7/regEngine/MainTest.kt" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/cn/vove7/regEngine/u/ParamRegexParseException.kt" />
+        <option value="$PROJECT_DIR$/src/cn/vove7/regEngine/test/MainTest.kt" />
         <option value="$PROJECT_DIR$/src/cn/vove7/regEngine/ParamRegex.kt" />
         <option value="$PROJECT_DIR$/src/cn/vove7/regEngine/node.kt" />
-        <option value="$PROJECT_DIR$/src/cn/vove7/regEngine/test/MainTest.kt" />
       </list>
     </option>
   </component>
@@ -591,8 +588,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="87" />
-    <option name="y" value="33" />
+    <option name="x" value="267" />
     <option name="width" value="1581" />
     <option name="height" value="930" />
   </component>
@@ -603,7 +599,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -631,6 +626,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -669,7 +665,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.MainTest">
+  <component name="RunManager" selected="JUnit.MainTest.singleTest">
     <configuration default="true" type="Applet" factoryName="小应用程序">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -770,8 +766,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MainTest" />
         <item itemvalue="JUnit.MainTest.singleTest" />
+        <item itemvalue="JUnit.MainTest" />
         <item itemvalue="JUnit.MainTest.test" />
         <item itemvalue="JUnit.MainTest.test" />
       </list>
@@ -790,7 +786,9 @@
       <workItem from="1552902584337" duration="183000" />
       <workItem from="1552902770911" duration="8000" />
       <workItem from="1552902812751" duration="1920000" />
-      <workItem from="1552977542133" duration="12251000" />
+      <workItem from="1552977542133" duration="12335000" />
+      <workItem from="1553354773897" duration="886000" />
+      <workItem from="1554527449408" duration="307000" />
     </task>
     <task id="LOCAL-00001" summary="使用gradle">
       <created>1552903886452</created>
@@ -806,28 +804,17 @@
       <option name="project" value="LOCAL" />
       <updated>1552904441223</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="完善限制符&#10;完善逻辑&#10;加入命令正则测试&#10;update ReadMe">
+      <created>1552990839789</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1552990839789</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="MainTest_singleTest - 2019.03.19 at 18h 04m 14s.xml">
-      <configuration name="MainTest.singleTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MainTest_singleTest - 2019.03.19 at 18h 04m 23s.xml">
-      <configuration name="MainTest.singleTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MainTest_singleTest - 2019.03.19 at 18h 04m 46s.xml">
-      <configuration name="MainTest.singleTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MainTest_singleTest - 2019.03.19 at 18h 06m 44s.xml">
-      <configuration name="MainTest.singleTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MainTest_singleTest - 2019.03.19 at 18h 15m 21s.xml">
-      <configuration name="MainTest.singleTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MainTest_singleTest - 2019.03.19 at 18h 15m 27s.xml">
-      <configuration name="MainTest.singleTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="MainTest_singleTest - 2019.03.19 at 18h 15m 54s.xml">
       <configuration name="MainTest.singleTest" configurationId="JUnit" />
     </history-entry>
@@ -840,22 +827,41 @@
     <history-entry file="MainTest - 2019.03.19 at 18h 18m 02s.xml">
       <configuration name="MainTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="MainTest - 2019.03.19 at 18h 20m 11s.xml">
+      <configuration name="MainTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MainTest_singleTest - 2019.03.23 at 23h 27m 41s.xml">
+      <configuration name="MainTest.singleTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MainTest_singleTest - 2019.04.06 at 13h 11m 44s.xml">
+      <configuration name="MainTest.singleTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MainTest_singleTest - 2019.04.06 at 13h 12m 28s.xml">
+      <configuration name="MainTest.singleTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MainTest_singleTest - 2019.04.06 at 13h 14m 26s.xml">
+      <configuration name="MainTest.singleTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MainTest_singleTest - 2019.04.06 at 13h 15m 20s.xml">
+      <configuration name="MainTest.singleTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14362000" />
+    <option name="totallyTimeSpent" value="15639000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26354083" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27485853" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32924694" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.61646235" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.1943958" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.14711033" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3485114" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -912,23 +918,12 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="使用gradle" />
     <MESSAGE value="update ReadMe" />
-    <option name="LAST_COMMIT_MESSAGE" value="update ReadMe" />
+    <MESSAGE value="完善限制符&#10;完善逻辑&#10;加入命令正则测试&#10;update ReadMe" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善限制符&#10;完善逻辑&#10;加入命令正则测试&#10;update ReadMe" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/cn/vove7/regEngine/ParamRegex.kt</url>
-          <line>122</line>
-          <properties />
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/cn/vove7/regEngine/node.kt</url>
-          <line>138</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/cn/vove7/regEngine/node.kt</url>
           <line>331</line>
@@ -1023,27 +1018,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cn/vove7/regEngine/node.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="334" column="13" lean-forward="true" selection-start-line="334" selection-start-column="13" selection-end-line="334" selection-end-column="13" />
-          <folding>
-            <element signature="e#28#131#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cn/vove7/regEngine/test/MainTest.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="91" column="57" lean-forward="true" selection-start-line="91" selection-start-column="57" selection-end-line="91" selection-end-column="57" />
+        <state relative-caret-position="167">
+          <caret line="91" column="32" lean-forward="true" selection-start-line="91" selection-start-column="32" selection-end-line="91" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cn/vove7/regEngine/ParamRegex.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-140">
-          <caret line="164" selection-start-line="164" selection-end-line="164" />
+        <state relative-caret-position="300">
+          <caret line="121" column="24" selection-start-line="121" selection-start-column="24" selection-end-line="121" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cn/vove7/regEngine/node.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="28">
+          <caret line="127" column="44" selection-start-line="127" selection-start-column="44" selection-end-line="127" selection-end-column="44" />
+          <folding>
+            <element signature="e#28#131#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
