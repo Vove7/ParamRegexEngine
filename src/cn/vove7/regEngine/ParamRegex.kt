@@ -22,6 +22,9 @@ class ParamRegex(
 
     private val groupStack = Stack<RegNode>()
 
+    //第几个%
+    private var _i = 0
+
     /**
      * 解析list<RegNode>
      * @return List<RegNode>
@@ -119,6 +122,7 @@ class ParamRegex(
                 '%' -> {
                     sb.buildNode(list)//检查前面
                     list.linkBack(ParamNode().also {
+                        it.name = "%${_i++}"
                         it.regText = "%"
                         regIndex = it.buildMatchCount(++regIndex, regex)
                     })
