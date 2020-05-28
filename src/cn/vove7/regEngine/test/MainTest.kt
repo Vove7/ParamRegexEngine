@@ -28,7 +28,7 @@ class MainTest {
 
         )
     private val paramTestlist = arrayOf(
-            Pair("(帮我)?@{text}第@{#index}个", listOf(Pair("点击第二个", true),
+            Pair("(帮我)?@{text}第#{index}个", listOf(Pair("点击第二个", true),
                     Pair("帮我点击第x个", false), Pair("帮我点击第34个", true)))
             , Pair("@{text}123%", listOf(Pair("你好123", true), Pair("你好来啦", false)))
     )
@@ -93,7 +93,7 @@ class MainTest {
 
         println("@{date}(叫|提醒)我@{message}".toParamRegex().match("明天八点叫我起床"))// false
 
-        if(true) return
+        if (true) return
 
         println("导航到?|带我去".toRegex().matches("导航带我去"))// false
 

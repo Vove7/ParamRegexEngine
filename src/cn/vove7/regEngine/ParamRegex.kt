@@ -25,6 +25,9 @@ class ParamRegex(
     //第几个%
     private var _i = 0
 
+    //第几个#
+    private var _j = 0
+
     /**
      * 解析list<RegNode>
      * @return List<RegNode>
@@ -113,11 +116,26 @@ class ParamRegex(
                 '#' -> {//数字
                     //无参数 任意匹配
                     sb.buildNode(list)//检查前面
-                    list.linkBack(ParamNode().also {
-                        it.regText = "#"
-                        it.onlyNumber = true
-                        regIndex = it.buildMatchCount(++regIndex, regex)
-                    })
+                    if (regIndex + 1 < l && regex[regIndex + 1] == '{') {
+                        val index = regex.indexOf('}', regIndex + 1)
+                        if (index > 0) {
+                            val paramNode = ParamNode()
+                            paramNode.name = regex.substring(regIndex + 1, index)
+                            paramNode.onlyNumber = true
+                            paramNode.minMatchCount = 1
+                            regIndex = paramNode.buildMatchCount(index + 1, regex)
+                            list.linkBack(paramNode)
+                        } else {
+                            throw Exception("#后'}'不匹配 at $regIndex")
+                        }
+                    } else {
+                        list.linkBack(ParamNode().also {
+                            it.name = "#${_j++}"
+                            it.regText = "#"
+                            it.onlyNumber = true
+                            regIndex = it.buildMatchCount(++regIndex, regex)
+                        })
+                    }
                 }
                 '%' -> {
                     sb.buildNode(list)//检查前面
