@@ -90,6 +90,7 @@ class MainTest {
     fun singleTest() {
 
         println("%呼叫@{name}".toParamRegex().match("帮我呼叫123"))// true
+        println("(#{a})?@{b}".toParamRegex().match("1楼过道"))// true
 
         println("@{date}(叫|提醒)我@{message}".toParamRegex().match("明天八点叫我起床"))// false
 

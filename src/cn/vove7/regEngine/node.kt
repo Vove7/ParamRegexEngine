@@ -306,7 +306,7 @@ class TextNode(val text: String) : RegNode() {
  * 被() 包起来的
  * @property subNodeList LinkedList<RegNode>
  */
-class GroupNode : RegNode() {
+class GroupNode(val groupIndex: Int) : RegNode() {
     //与的关系 (123[abc])*
     lateinit var subNodeList: List<RegNode>
 

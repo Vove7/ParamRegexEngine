@@ -23,10 +23,12 @@ class ParamRegex(
     private val groupStack = Stack<RegNode>()
 
     //第几个%
-    private var _i = 0
+    private var _i = 1
 
     //第几个#
-    private var _j = 0
+    private var _j = 1
+    //
+    var groupIndex = 1
 
     /**
      * 解析list<RegNode>
@@ -45,7 +47,7 @@ class ParamRegex(
                     sb.buildNode(list)//检查前面
                     regIndex++
                     val b = regIndex
-                    val group = GroupNode()
+                    val group = GroupNode(groupIndex++)
                     groupStack.push(group)//进栈
                     group.subNodeList = buildRegNodeList()
                     groupStack.pop()
@@ -73,12 +75,12 @@ class ParamRegex(
                     val backList = buildRegNodeList()
                     val orNode = OrNode()
                     //连接
-                    val preGroup = GroupNode().also {
+                    val preGroup = GroupNode(groupIndex++).also {
                         val li = arrayListOf<RegNode>()
                         li.addAll(list)
                         it.subNodeList = li
                     }
-                    val backGroup = GroupNode().also {
+                    val backGroup = GroupNode(groupIndex++).also {
                         it.subNodeList = backList
                     }
                     orNode.orList.linkBack(preGroup)
@@ -120,7 +122,7 @@ class ParamRegex(
                         val index = regex.indexOf('}', regIndex + 1)
                         if (index > 0) {
                             val paramNode = ParamNode()
-                            paramNode.name = regex.substring(regIndex + 1, index)
+                            paramNode.name = regex.substring(regIndex + 2, index)
                             paramNode.onlyNumber = true
                             paramNode.minMatchCount = 1
                             regIndex = paramNode.buildMatchCount(index + 1, regex)
@@ -190,15 +192,8 @@ class ParamRegex(
                     Vog.d(e.message)
                     return null
                 }
-                if (it is ParamNode) {
-                    it.name?.also { name ->
-                        if (it.onlyNumber)
-                            matchList[name] = it.numValue
-                        else
-                            matchList[name] = it.matchValue
-                    }
-                }
 
+                buildResultMap(it, matchList)
                 if (endIndex >= text.length) {//文本匹配结束
                     return@forEach
                 }
@@ -208,6 +203,22 @@ class ParamRegex(
         return if (endIndex >= text.length) {
             matchList
         } else null
+    }
+
+    private fun buildResultMap(it: RegNode, matchList: MutableMap<String, String>) {
+        if (it is ParamNode) {
+            it.name?.also { name ->
+                if (it.onlyNumber)
+                    matchList[name] = it.numValue
+                else
+                    matchList[name] = it.matchValue
+            }
+        } else if (it is GroupNode) {
+            matchList["g${it.groupIndex}"] = it.matchValue
+            it.subNodeList.forEach {
+                buildResultMap(it, matchList)
+            }
+        }
     }
 
 }
